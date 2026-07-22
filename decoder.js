@@ -18,6 +18,8 @@ const resultEmpty = $('result-empty');
 const resultContent = $('result-content');
 const resultError = $('result-error');
 const resultErrorMsg = $('result-error-msg');
+const resultErrorTitle = $('result-error-title');
+const originalEmptyHTML = resultEmpty.innerHTML;
 const resultType = $('result-type');
 const resultText = $('result-text');
 const copyBtn = $('copy-btn');
@@ -106,7 +108,7 @@ clearBtn.addEventListener('click', (e) => {
 
 function handleFile(file) {
   if (!file.type.startsWith('image/')) {
-    showError('That file is not an image. Please choose a PNG, JPG, or similar image file.');
+    showError('That file is not an image. Please choose a PNG, JPG, or similar image file.', 'Wrong file type');
     return;
   }
   const reader = new FileReader();
@@ -117,7 +119,7 @@ function handleFile(file) {
     clearBtn.hidden = false;
     decodeFromUrl(url);
   };
-  reader.onerror = () => showError('Could not read the selected file.');
+  reader.onerror = () => showError('Could not read the selected file.', 'Read error');
   reader.readAsDataURL(file);
 }
 
@@ -125,7 +127,7 @@ function decodeFromUrl(url) {
   showLoading();
   const img = new Image();
   img.onload = () => decodeImage(img);
-  img.onerror = () => showError('The image could not be loaded.');
+  img.onerror = () => showError('The image could not be loaded.', 'Image error');
   img.src = url;
 }
 
@@ -148,11 +150,11 @@ function decodeImage(img) {
     if (code && code.data) {
       showResult(code.data);
     } else {
-      showError('No QR code was detected. Try a sharper, well-lit image with the code centred.');
+      showError('No QR code was detected. Try a sharper, well-lit image with the code centred.', 'No QR code found');
     }
   } catch (err) {
     console.error(err);
-    showError('Something went wrong while decoding the image.');
+    showError('Something went wrong while decoding the image.', 'Decode error');
   }
 }
 
@@ -239,6 +241,7 @@ function scanLoop() {
 
 // ---------- Result handling ----------
 function showEmpty() {
+  resultEmpty.innerHTML = originalEmptyHTML;
   resultEmpty.hidden = false;
   resultContent.hidden = true;
   resultError.hidden = true;
@@ -301,10 +304,11 @@ function showResult(text) {
   addHistory(text, type);
 }
 
-function showError(msg) {
+function showError(msg, title) {
   resultEmpty.hidden = true;
   resultContent.hidden = true;
   decryptPanel.hidden = true;
+  resultErrorTitle.textContent = title || 'No QR code found';
   resultErrorMsg.textContent = msg;
   resultError.hidden = false;
   resultCard.classList.remove('is-found');
