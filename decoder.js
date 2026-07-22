@@ -48,6 +48,10 @@ const camNote = $('cam-note');
 const camVideo = $('camera-video');
 const camEmpty = $('camera-empty');
 
+const textInput = $('text-input');
+const textDecodeBtn = $('text-decode-btn');
+const textClearBtn = $('text-clear-btn');
+
 let stream = null;
 let scanTimer = null;
 let facing = 'environment';
@@ -238,6 +242,29 @@ function scanLoop() {
   }
   scanTimer = requestAnimationFrame(scanLoop);
 }
+
+// ---------- Text decoding ----------
+textDecodeBtn.addEventListener('click', () => {
+  const raw = textInput.value.trim();
+  if (!raw) {
+    textInput.focus();
+    return;
+  }
+  showResult(raw);
+});
+
+textInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    textDecodeBtn.click();
+  }
+});
+
+textClearBtn.addEventListener('click', () => {
+  textInput.value = '';
+  textInput.focus();
+  showEmpty();
+});
 
 // ---------- Result handling ----------
 function showEmpty() {

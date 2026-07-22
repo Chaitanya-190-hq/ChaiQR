@@ -1,5 +1,5 @@
 // Encrypted QR creator
-import QRCode from 'qrcode';
+import qrcode from 'qrcode-generator';
 import { encryptText } from './crypto.js';
 
 const HISTORY_KEY = 'snd_create_history';
@@ -97,12 +97,12 @@ form.addEventListener('submit', async (e) => {
     const eccLevel = level.value;
     const px = parseInt(size.value, 10);
 
-    const dataUrl = await QRCode.toDataURL(encrypted, {
-      errorCorrectionLevel: eccLevel,
-      width: px,
-      margin: 2,
-      color: { dark: '#0b0d10', light: '#ffffff' },
-    });
+    // qrcode-generator: typeNumber 0 = auto-select best version
+    const qr = qrcode(0, eccLevel);
+    qr.addData(encrypted);
+    qr.make();
+    const cellSize = Math.max(4, Math.floor(px / qr.getModuleCount()));
+    const dataUrl = qr.createDataURL(cellSize, 2);
 
     currentDataUrl = dataUrl;
     currentEncrypted = encrypted;

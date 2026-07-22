@@ -886,6 +886,55 @@ body::before {
   min-height: 1.2em;
 }
 
+/* Text decode panel */
+.text-decode {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.text-decode-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-soft);
+}
+.text-decode-hint {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-top: -6px;
+}
+.text-decode-hint code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  background: var(--bg-2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border-2);
+}
+.text-decode-area {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.text-decode-area:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+.text-decode-actions {
+  display: flex;
+  gap: 10px;
+}
+
 /* Result panel */
 .result-panel {
   display: flex;

@@ -58,6 +58,10 @@
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-2h6l2 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></svg>
                 Camera
               </button>
+              <button class="mode-tab" role="tab" aria-selected="false" data-mode="text" id="tab-text" aria-controls="panel-text">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M12 4v16"/><path d="M9 20h6"/></svg>
+                Text
+              </button>
             </div>
 
             <div class="mode-panel is-active" id="panel-image" role="tabpanel" aria-labelledby="tab-image">
@@ -99,6 +103,18 @@
                 <button class="btn btn-ghost btn-sm" id="cam-switch" type="button" disabled>Flip camera</button>
               </div>
               <p class="camera-note" id="cam-note" role="status" aria-live="polite"></p>
+            </div>
+
+            <div class="mode-panel" id="panel-text" role="tabpanel" aria-labelledby="tab-text">
+              <div class="text-decode">
+                <label class="text-decode-label" for="text-input">Paste the raw QR content</label>
+                <p class="text-decode-hint">Paste anything a QR code contains — a URL, plain text, or an encrypted <code>ENC1:</code> payload. We'll decode it just like a scanned image.</p>
+                <textarea id="text-input" class="text-decode-area" rows="5" placeholder="Paste QR content here, e.g. ENC1:… or https://example.com"></textarea>
+                <div class="text-decode-actions">
+                  <button class="btn btn-primary btn-sm" id="text-decode-btn" type="button">Decode</button>
+                  <button class="btn btn-ghost btn-sm" id="text-clear-btn" type="button">Clear</button>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -175,6 +191,6 @@
       </div>
     </footer>
   </div>
-  <script type="module" src="/decoder.js"></script>
+  <script type="module" src="./decoder.js"></script>
 </body>
 </html>
