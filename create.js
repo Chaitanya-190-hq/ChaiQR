@@ -30,8 +30,11 @@ const againBtn = $('again-btn');
 
 const historyList = $('history-list');
 const clearHistoryBtn = $('clear-history');
+const rawPreviewText = $('raw-preview-text');
+const copyRawBtn = $('copy-raw-btn');
 
 let currentDataUrl = null;
+let currentEncrypted = null;
 
 // char counter
 msg.addEventListener('input', () => {
@@ -102,7 +105,9 @@ form.addEventListener('submit', async (e) => {
     });
 
     currentDataUrl = dataUrl;
+    currentEncrypted = encrypted;
     qrOut.src = dataUrl;
+    rawPreviewText.textContent = encrypted;
     resultEmpty.hidden = true;
     resultError.hidden = true;
     resultContent.hidden = false;
@@ -124,6 +129,7 @@ function showEmpty() {
   resultContent.hidden = true;
   resultError.hidden = true;
   currentDataUrl = null;
+  currentEncrypted = null;
 }
 
 function showError(title, msg) {
@@ -133,11 +139,22 @@ function showError(title, msg) {
   resultErrorMsg.textContent = msg;
   resultError.hidden = false;
   currentDataUrl = null;
+  currentEncrypted = null;
 }
 
 againBtn.addEventListener('click', () => {
   showEmpty();
   formNote.textContent = '';
+});
+
+copyRawBtn.addEventListener('click', async () => {
+  if (!currentEncrypted) return;
+  try {
+    await navigator.clipboard.writeText(currentEncrypted);
+    flash(copyRawBtn, 'Copied!');
+  } catch {
+    flash(copyRawBtn, 'Copy failed');
+  }
 });
 
 // download

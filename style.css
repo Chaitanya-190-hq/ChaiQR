@@ -1227,6 +1227,48 @@ body::before {
   line-height: 1.5;
 }
 
+/* Raw scan preview */
+.raw-preview {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
+}
+.raw-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.raw-preview-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.raw-preview-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  word-break: break-all;
+  background: var(--bg-1);
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-2);
+  max-height: 120px;
+  overflow-y: auto;
+  margin: 0;
+}
+.raw-preview-note {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  line-height: 1.5;
+}
+
 /* ---------- Decrypt panel ---------- */
 .decrypt-panel {
   display: flex;

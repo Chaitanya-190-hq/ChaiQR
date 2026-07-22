@@ -121,6 +121,16 @@
                 <div class="qr-output">
                   <img id="qr-out" alt="Generated encrypted QR code" />
                 </div>
+
+                <div class="raw-preview">
+                  <div class="raw-preview-head">
+                    <span class="raw-preview-label">What a normal scanner sees</span>
+                    <button class="link-btn" id="copy-raw-btn" type="button">Copy</button>
+                  </div>
+                  <p class="raw-preview-text" id="raw-preview-text"></p>
+                  <p class="raw-preview-note">Any regular QR app shows this encrypted gibberish — only your website can turn it back into the real message.</p>
+                </div>
+
                 <div class="result-actions">
                   <button class="btn btn-primary btn-sm" id="dl-btn" type="button">Download PNG</button>
                   <button class="btn btn-ghost btn-sm" id="copy-img-btn" type="button">Copy image</button>
