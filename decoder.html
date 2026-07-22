@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Decode QR codes from an image or your camera, instantly and privately in your browser." />
+  <title>Reader · Scan & Decode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-reader">
+  <div class="page">
+    <header class="site-header site-header--solid">
+      <div class="container header-inner">
+        <a href="index.html" class="brand" aria-label="Scan & Decode home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.5" />
+              <rect x="14" y="3" width="7" height="7" rx="1.5" />
+              <rect x="3" y="14" width="7" height="7" rx="1.5" />
+              <path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20v.01" />
+            </svg>
+          </span>
+          <span class="brand-name">Scan<span class="brand-amp">&</span>Decode</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="create.html">Create</a>
+          <a href="decoder.html" class="nav-link-active">Decode</a>
+          <a href="index.html#faq">FAQ</a>
+          <a href="index.html" class="nav-cta nav-cta--alt">Home</a>
+        </nav>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="reader-main">
+      <div class="container">
+        <div class="reader-head">
+          <div>
+            <span class="eyebrow">QR Reader</span>
+            <h1 class="reader-title">Decode a QR code</h1>
+            <p class="reader-sub">Drop an image, choose a file, or use your camera. Decoding runs privately in your browser.</p>
+          </div>
+        </div>
+
+        <div class="reader-layout">
+          <section class="reader-panel" aria-label="Decoder">
+            <div class="mode-switch" role="tablist" aria-label="Decode mode">
+              <button class="mode-tab is-active" role="tab" aria-selected="true" data-mode="image" id="tab-image" aria-controls="panel-image">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                Image
+              </button>
+              <button class="mode-tab" role="tab" aria-selected="false" data-mode="camera" id="tab-camera" aria-controls="panel-camera">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-2h6l2 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></svg>
+                Camera
+              </button>
+            </div>
+
+            <div class="mode-panel is-active" id="panel-image" role="tabpanel" aria-labelledby="tab-image">
+              <label class="dropzone" id="dropzone">
+                <input type="file" id="file-input" accept="image/*" hidden />
+                <span class="dropzone-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0-4 4m4-4 4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                </span>
+                <span class="dropzone-title">Drop a QR image here</span>
+                <span class="dropzone-hint">or click to browse · PNG, JPG, WEBP, SVG</span>
+                <span class="dropzone-sample" id="preview-wrap" hidden>
+                  <img id="preview-img" alt="Selected QR code preview" />
+                </span>
+              </label>
+              <div class="dropzone-actions">
+                <button class="btn btn-ghost btn-sm" id="pick-btn" type="button">Choose file</button>
+                <button class="btn btn-ghost btn-sm" id="clear-btn" type="button" hidden>Clear</button>
+              </div>
+            </div>
+
+            <div class="mode-panel" id="panel-camera" role="tabpanel" aria-labelledby="tab-camera">
+              <div class="camera-stage" id="camera-stage">
+                <video id="camera-video" autoplay playsinline muted></video>
+                <div class="camera-overlay" aria-hidden="true">
+                  <span class="scan-corner scan-corner--tl"></span>
+                  <span class="scan-corner scan-corner--tr"></span>
+                  <span class="scan-corner scan-corner--bl"></span>
+                  <span class="scan-corner scan-corner--br"></span>
+                  <div class="scan-beam"></div>
+                </div>
+                <div class="camera-empty" id="camera-empty">
+                  <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-2h6l2 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/><path d="M12 6v2" /></svg>
+                  <p>Press start to activate your camera.</p>
+                </div>
+              </div>
+              <div class="camera-actions">
+                <button class="btn btn-primary btn-sm" id="cam-start" type="button">Start camera</button>
+                <button class="btn btn-ghost btn-sm" id="cam-stop" type="button" disabled>Stop</button>
+                <button class="btn btn-ghost btn-sm" id="cam-switch" type="button" disabled>Flip camera</button>
+              </div>
+              <p class="camera-note" id="cam-note" role="status" aria-live="polite"></p>
+            </div>
+          </section>
+
+          <section class="result-panel" aria-label="Result">
+            <div class="result-card" id="result-card" aria-live="polite">
+              <div class="result-empty" id="result-empty">
+                <span class="result-empty-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h.01M15 9h.01M8 14a4 4 0 0 0 8 0"/><circle cx="12" cy="12" r="9"/></svg>
+                </span>
+                <h2>Awaiting a QR code</h2>
+                <p>Once a code is detected, the decoded text and actions will appear here.</p>
+              </div>
+
+              <div class="result-content" id="result-content" hidden>
+                <div class="result-flag">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  Decoded successfully
+                </div>
+                <div class="result-type" id="result-type">Text</div>
+                <pre class="result-text" id="result-text"></pre>
+                <div class="result-actions">
+                  <button class="btn btn-primary btn-sm" id="copy-btn" type="button">Copy</button>
+                  <a class="btn btn-ghost btn-sm" id="open-btn" href="#" target="_blank" rel="noopener noreferrer" hidden>Open link</a>
+                  <button class="btn btn-ghost btn-sm" id="share-btn" type="button">Share</button>
+                  <button class="btn btn-ghost btn-sm" id="decode-again" type="button">Scan another</button>
+                </div>
+              </div>
+
+              <div class="decrypt-panel" id="decrypt-panel" hidden>
+                <div class="result-flag">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Encrypted QR detected
+                </div>
+                <p class="decrypt-hint">This QR code is password-protected. Enter the password to reveal the hidden message.</p>
+                <div class="pwd-wrap">
+                  <input id="decrypt-pwd" type="password" placeholder="Enter password" />
+                  <button type="button" class="pwd-toggle" data-target="decrypt-pwd" aria-label="Show password">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <div class="result-actions">
+                  <button class="btn btn-primary btn-sm" id="decrypt-btn" type="button">Decrypt</button>
+                  <button class="btn btn-ghost btn-sm" id="decrypt-cancel" type="button">Cancel</button>
+                </div>
+                <p class="decrypt-note" id="decrypt-note" role="status" aria-live="polite"></p>
+              </div>
+
+              <div class="result-error" id="result-error" hidden>
+                <span class="result-error-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16v.01"/></svg>
+                </span>
+                <h2>No QR code found</h2>
+                <p id="result-error-msg">Try a clearer, well-lit image with the QR code centred.</p>
+              </div>
+            </div>
+
+            <div class="history-card">
+              <div class="history-head">
+                <h2>Recent scans</h2>
+                <button class="link-btn" id="clear-history" type="button">Clear all</button>
+              </div>
+              <ul class="history-list" id="history-list">
+                <li class="history-empty">No scans yet — your decoded results will show up here.</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer site-footer--simple">
+      <div class="container footer-inner">
+        <p class="footer-copy">© <span data-year></span> Scan &amp; Decode · Runs entirely in your browser.</p>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/decoder.js"></script>
+</body>
+</html>

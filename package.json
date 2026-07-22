@@ -1,0 +1,19 @@
+{
+  "name": "scan-and-decode",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A privacy-first, client-side QR code reader. Works on GitHub Pages — no backend required.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "jsqr": "^1.4.0",
+    "qrcode": "^1.5.4"
+  }
+}

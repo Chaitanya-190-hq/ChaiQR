@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Create an encrypted QR code — protect your message with a password, generate a QR, and share it securely." />
+  <title>Create · Scan & Decode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-reader">
+  <div class="page">
+    <header class="site-header site-header--solid">
+      <div class="container header-inner">
+        <a href="index.html" class="brand" aria-label="Scan & Decode home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.5" />
+              <rect x="14" y="3" width="7" height="7" rx="1.5" />
+              <rect x="3" y="14" width="7" height="7" rx="1.5" />
+              <path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20v.01" />
+            </svg>
+          </span>
+          <span class="brand-name">Scan<span class="brand-amp">&</span>Decode</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="create.html" class="nav-link-active">Create</a>
+          <a href="decoder.html">Decode</a>
+          <a href="index.html#faq">FAQ</a>
+          <a href="index.html" class="nav-cta nav-cta--alt">Home</a>
+        </nav>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="reader-main">
+      <div class="container">
+        <div class="reader-head">
+          <div>
+            <span class="eyebrow">Encrypted QR Creator</span>
+            <h1 class="reader-title">Create a secret QR code</h1>
+            <p class="reader-sub">Type a message, choose a password, and generate a QR code only someone with the password can read.</p>
+          </div>
+        </div>
+
+        <div class="reader-layout">
+          <section class="reader-panel" aria-label="Composer">
+            <form id="create-form" autocomplete="off">
+              <div class="field">
+                <label for="msg">Secret message</label>
+                <textarea id="msg" rows="4" placeholder="Type the text you want to hide inside the QR code…" required></textarea>
+                <span class="field-hint" id="msg-count">0 chars</span>
+              </div>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="pwd">Password</label>
+                  <div class="pwd-wrap">
+                    <input id="pwd" type="password" placeholder="Your secret key" required />
+                    <button type="button" class="pwd-toggle" data-target="pwd" aria-label="Show password">
+                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="pwd2">Confirm password</label>
+                  <div class="pwd-wrap">
+                    <input id="pwd2" type="password" placeholder="Repeat password" required />
+                    <button type="button" class="pwd-toggle" data-target="pwd2" aria-label="Show password">
+                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="size">QR size <span class="field-hint-inline" id="size-val">320 px</span></label>
+                <input id="size" type="range" min="200" max="600" step="20" value="320" />
+              </div>
+
+              <div class="field">
+                <label for="level">Error correction</label>
+                <select id="level">
+                  <option value="L">Low — densest, least tough</option>
+                  <option value="M" selected>Medium — balanced</option>
+                  <option value="Q">Quartile — more resilient</option>
+                  <option value="H">High — most damage-tolerant</option>
+                </select>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="generate-btn">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1M5.6 18.4l2.1-2.1m8.6-8.6 2.1-2.1"/><circle cx="12" cy="12" r="3.5"/></svg>
+                  Generate QR
+                </button>
+                <button type="button" class="btn btn-ghost" id="reset-btn">Clear</button>
+              </div>
+              <p class="form-note" id="form-note" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="result-panel" aria-label="Generated QR">
+            <div class="result-card" id="result-card">
+              <div class="result-empty" id="result-empty">
+                <span class="result-empty-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20v.01"/></svg>
+                </span>
+                <h2>Your QR will appear here</h2>
+                <p>Enter a message and password, then press Generate.</p>
+              </div>
+
+              <div class="result-content create-result" id="result-content" hidden>
+                <div class="result-flag">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  Encrypted QR ready
+                </div>
+                <div class="qr-output">
+                  <img id="qr-out" alt="Generated encrypted QR code" />
+                </div>
+                <div class="result-actions">
+                  <button class="btn btn-primary btn-sm" id="dl-btn" type="button">Download PNG</button>
+                  <button class="btn btn-ghost btn-sm" id="copy-img-btn" type="button">Copy image</button>
+                  <button class="btn btn-ghost btn-sm" id="again-btn" type="button">Make another</button>
+                </div>
+                <p class="result-meta">Encrypted with AES-256-GCM · 120k PBKDF2 iterations. Only someone with the password can read this.</p>
+              </div>
+
+              <div class="result-error" id="result-error" hidden>
+                <span class="result-error-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16v.01"/></svg>
+                </span>
+                <h2 id="result-error-title">Couldn't generate</h2>
+                <p id="result-error-msg"></p>
+              </div>
+            </div>
+
+            <div class="history-card">
+              <div class="history-head">
+                <h2>Created here</h2>
+                <button class="link-btn" id="clear-history" type="button">Clear all</button>
+              </div>
+              <ul class="history-list" id="history-list">
+                <li class="history-empty">Nothing yet — your created QR codes will be listed here.</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer site-footer--simple">
+      <div class="container footer-inner">
+        <p class="footer-copy">© <span data-year></span> Scan &amp; Decode · Runs entirely in your browser.</p>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/create.js"></script>
+</body>
+</html>
